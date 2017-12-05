@@ -2,14 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const Nexmo = require('nexmo');
+const keys = require('./config/keys');
 const socketio = require('socket.io');
 const app = express();
 const port = 3000;
 
 // Init Nexmo
 const nexmo = new Nexmo({
-    apiKey: 'c8ac218d',
-    apiSecret: 'dd7a26560765eaa8'
+    apiKey: keys.apiKey,
+    apiSecret: keys.apiSecret
 }, {debug: true});
 
 // ejs middleware
@@ -33,6 +34,8 @@ app.post('/', (req, res) => {
     const number = req.body.number;
     const text = req.body.text;
 
+    console.log(nexmo);
+    
     nexmo.message.sendSms(
         '16052107009', number, text, {type: 'unicode'},
         (err, responseData) => {
